@@ -13,6 +13,8 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
 
+    <string name="default_value">0</string>
+
     <string name="empty">No books yet..</string>
     <string name="instructions">Go ahead and add some books</string>
 
@@ -20,5 +22,21 @@
 
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+
+    <string name="add_book">Add Book</string>
+    <string name="edit_book">Edit Book</string>
+
+    <string name="save_success">Book Saved</string>
+    <string name="save_error">Error saving book</string>
+
+    <string name="delete_dialog_msg">Delete this book?</string>
+
+    <string name="editor_delete_pet_failed">Error deleting book</string>
+    <string name="editor_delete_pet_successful">Book deleted</string>
+
+    <string name="invalid_name">Book requires a name</string>
+
+    <string name="unit">$</string>
 
 </resources>

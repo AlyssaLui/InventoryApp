@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mAdapter = new BookCursorAdapter(this, null);
         booksList.setAdapter(mAdapter);
+
         booksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -158,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = new String[] {BookEntry._ID, BookEntry.COLUMN_BOOK_NAME, BookEntry.COLUMN_BOOK_PRICE};
-
         return new CursorLoader(this, BookEntry.CONTENT_URI, projection, null, null, null);
     }
 

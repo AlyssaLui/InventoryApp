@@ -70,7 +70,41 @@ public class BookProvider extends ContentProvider{
     }
 
     private Uri insertBook(Uri uri, ContentValues values) {
-        return null;
+        String name = values.getAsString(BookEntry.COLUMN_BOOK_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Book requires a name");
+        }
+
+        String price = values.getAsString(BookEntry.COLUMN_BOOK_PRICE);
+        if (price == null) {
+            throw new IllegalArgumentException("Book requires a price");
+        }
+
+        Integer weight = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
+        if (weight != null && weight < 0) {
+            throw new IllegalArgumentException("Book requires valid quantity");
+        }
+
+        String sName = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+        if (sName == null) {
+            throw new IllegalArgumentException("Supplier requires a name");
+        }
+
+        String sPhone = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+        if (sPhone == null) {
+            throw new IllegalArgumentException("Supplier requires a phone number");
+        }
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        long id = database.insert(BookEntry.TABLE_NAME, null, values);
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return ContentUris.withAppendedId(uri, id);
     }
 
     @Override

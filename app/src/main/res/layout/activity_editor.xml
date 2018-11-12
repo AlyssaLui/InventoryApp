@@ -27,16 +27,26 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:hint="@string/name"/>
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:hint="@string/price"/>
-
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/unit"
+                    android:paddingTop="20dp"/>
+                <EditText
+                    android:id="@+id/edit_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:hint="@string/price"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -65,6 +75,11 @@
             android:padding="5dp"
             android:text="@string/minus"/>
 
+        <EditText
+            android:id="@+id/edit_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/default_value"/>
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -98,11 +113,13 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/edit_sname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:hint="@string/supplierName"/>
             <EditText
+                android:id="@+id/edit_sphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

@@ -7,7 +7,7 @@ import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 
 public class BookDbHelper extends SQLiteOpenHelper{
 
-    public static final String DATABASE_NAME = "books.db";
+    public static final String DATABASE_NAME = "myBooks.db";
     public static final int DATABASE_VERSION = 1;
 
     public BookDbHelper(Context context) {
@@ -22,7 +22,7 @@ public class BookDbHelper extends SQLiteOpenHelper{
                 + BookEntry.COLUMN_BOOK_PRICE + " TEXT, "
                 + BookEntry.COLUMN_BOOK_QUANTITY + " INTEGER NOT NULL, "
                 + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " TEXT NOT NULL, "
-                + BookEntry.COLUMN_BOOK_SUPPLIER_PHONE + " INTEGER NOT NULL);";
+                + BookEntry.COLUMN_BOOK_SUPPLIER_PHONE + " TEXT NOT NULL);";
         sqLiteDatabase.execSQL(SQL_CREATE_PETS_TABLE);
     }
 
