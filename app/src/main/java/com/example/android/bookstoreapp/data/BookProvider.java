@@ -115,7 +115,8 @@ public class BookProvider extends ContentProvider{
             case BOOKS:
                 return updateBook(uri, contentValues, selection, selectionArgs);
             case BOOK_ID:
-
+                selection = BookEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 return updateBook(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -123,7 +124,49 @@ public class BookProvider extends ContentProvider{
     }
 
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-       return 0;
+       if(values.containsKey(BookEntry.COLUMN_BOOK_NAME)){
+           String name = values.getAsString(BookEntry.COLUMN_BOOK_NAME);
+           if (name == null) {
+               throw new IllegalArgumentException("Book requires a name");
+           }
+       }
+
+        if(values.containsKey(BookEntry.COLUMN_BOOK_PRICE)){
+            String price = values.getAsString(BookEntry.COLUMN_BOOK_PRICE);
+            if (price == null) {
+                throw new IllegalArgumentException("Book requires a price");
+            }
+        }
+
+        if(values.containsKey(BookEntry.COLUMN_BOOK_QUANTITY)){
+            Integer quantity = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Book requires a valid quantity");
+            }
+        }
+
+        if(values.containsKey(BookEntry.COLUMN_BOOK_SUPPLIER_NAME)){
+            String sName = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+            if (sName == null) {
+                throw new IllegalArgumentException("Book requires a supplier name");
+            }
+        }
+
+        if(values.containsKey(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE)){
+            String sPhone = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+            if (sPhone == null) {
+                throw new IllegalArgumentException("Book requires a supplier phone number");
+            }
+        }
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsUpdated;
     }
 
     @Override

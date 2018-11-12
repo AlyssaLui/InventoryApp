@@ -12,11 +12,14 @@
 
     <string name="minus">-</string>
     <string name="plus">+</string>
+    <string name="sale">Sale</string>
+    <string name="details">Details</string>
 
     <string name="default_value">0</string>
 
     <string name="empty">No books yet..</string>
-    <string name="instructions">Go ahead and add some books</string>
+    <string name="instructions">Go ahead and add some books.</string>
+    <string name="populate_views">Make sure to include the name, price and quantity</string>
 
     <string name="action_delete_all_entries">Delete All</string>
 
