@@ -68,7 +68,6 @@ public class BookCursorAdapter extends CursorAdapter implements LoaderManager.Lo
                     Uri newUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, bookId);
                     newContext.getContentResolver().update(newUri, values, null, null);
                 }
-
             }
         });
 
@@ -103,11 +102,9 @@ public class BookCursorAdapter extends CursorAdapter implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

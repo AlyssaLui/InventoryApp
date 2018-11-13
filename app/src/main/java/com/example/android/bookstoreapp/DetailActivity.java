@@ -59,10 +59,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         orderButton = (Button) findViewById(R.id.order_button);
         decreaseButton = (Button) findViewById(R.id.decreaseQuantity);
         increaseButton = (Button) findViewById(R.id.increaseQuantity);
-
-
-
-
     }
 
     @Override
@@ -137,6 +133,4 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
-
 }

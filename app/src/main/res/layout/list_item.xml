@@ -43,7 +43,7 @@
         android:layout_gravity="center_vertical"
         android:layout_toLeftOf="@id/details_button"
         android:layout_marginRight="15dp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:text="@string/sale" />
 
     <Button
@@ -54,7 +54,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/sale_button"
         android:layout_marginRight="15dp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:text="@string/edit"
         android:onClick="displayDetails"/>
 </LinearLayout>
