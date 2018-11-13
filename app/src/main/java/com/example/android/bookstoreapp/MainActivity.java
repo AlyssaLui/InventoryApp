@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mAdapter = new BookCursorAdapter(this, null);
         booksList.setAdapter(mAdapter);
-
+/*
         booksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -62,9 +62,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
-        //dbHelper = new BookDbHelper(this);
-        //insertBook();
-        //queryData();
+*/
 
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }

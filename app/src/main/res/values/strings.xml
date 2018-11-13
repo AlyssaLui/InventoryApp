@@ -14,6 +14,7 @@
     <string name="plus">+</string>
     <string name="sale">Sale</string>
     <string name="details">Details</string>
+    <string name="edit">Edit</string>
 
     <string name="default_value">0</string>
 
@@ -41,5 +42,7 @@
     <string name="invalid_name">Book requires a name</string>
 
     <string name="unit">$</string>
+
+    <string name="order">Order</string>
 
 </resources>

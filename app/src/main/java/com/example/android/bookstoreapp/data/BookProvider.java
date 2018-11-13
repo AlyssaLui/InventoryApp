@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.BookContract.BookEntry;
 public class BookProvider extends ContentProvider{
@@ -71,40 +72,27 @@ public class BookProvider extends ContentProvider{
 
     private Uri insertBook(Uri uri, ContentValues values) {
         String name = values.getAsString(BookEntry.COLUMN_BOOK_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Book requires a name");
-        }
-
         String price = values.getAsString(BookEntry.COLUMN_BOOK_PRICE);
-        if (price == null) {
-            throw new IllegalArgumentException("Book requires a price");
-        }
-
-        Integer weight = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
-        if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Book requires valid quantity");
-        }
-
+        Integer quantity = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
         String sName = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
-        if (sName == null) {
-            throw new IllegalArgumentException("Supplier requires a name");
-        }
-
         String sPhone = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
-        if (sPhone == null) {
-            throw new IllegalArgumentException("Supplier requires a phone number");
-        }
 
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        String val = String.valueOf(price.length() <= 0);
 
-        long id = database.insert(BookEntry.TABLE_NAME, null, values);
-        if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+        if (name.length() <= 0 || price.length() <= 0 || quantity < 0 || sName.length() <= 0 || sPhone.length() <= 0 ) {
+            Toast.makeText(getContext(), "Please complete all fields",Toast.LENGTH_LONG).show();
             return null;
-        }
+        } else {
+            SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        getContext().getContentResolver().notifyChange(uri, null);
-        return ContentUris.withAppendedId(uri, id);
+            long id = database.insert(BookEntry.TABLE_NAME, null, values);
+            if (id == -1) {
+                Log.e(LOG_TAG, "Failed to insert row for " + uri);
+                return null;
+            }
+            getContext().getContentResolver().notifyChange(uri, null);
+            return ContentUris.withAppendedId(uri, id);
+        }
     }
 
     @Override
@@ -133,29 +121,30 @@ public class BookProvider extends ContentProvider{
 
         if(values.containsKey(BookEntry.COLUMN_BOOK_PRICE)){
             String price = values.getAsString(BookEntry.COLUMN_BOOK_PRICE);
-            if (price == null) {
-                throw new IllegalArgumentException("Book requires a price");
+            if (price.length() <= 0) {
+                Toast.makeText(getContext(), "Book requires a price", Toast.LENGTH_SHORT).show();
             }
         }
 
         if(values.containsKey(BookEntry.COLUMN_BOOK_QUANTITY)){
             Integer quantity = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
             if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Book requires a valid quantity");
+                values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, 0);
+                Toast.makeText(getContext(), "Book requires a valid quantity", Toast.LENGTH_SHORT).show();
             }
         }
 
         if(values.containsKey(BookEntry.COLUMN_BOOK_SUPPLIER_NAME)){
             String sName = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
             if (sName == null) {
-                throw new IllegalArgumentException("Book requires a supplier name");
+                Toast.makeText(getContext(), "Book requires a supplier name", Toast.LENGTH_SHORT).show();
             }
         }
 
         if(values.containsKey(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE)){
             String sPhone = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
             if (sPhone == null) {
-                throw new IllegalArgumentException("Book requires a supplier phone number");
+                Toast.makeText(getContext(), "Book requires a supplier phone number", Toast.LENGTH_SHORT).show();
             }
         }
 

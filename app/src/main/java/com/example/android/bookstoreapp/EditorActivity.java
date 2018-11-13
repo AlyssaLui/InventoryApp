@@ -2,6 +2,7 @@ package com.example.android.bookstoreapp;
 
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,6 +35,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mQuantityEditText;
     private EditText mSNameEditText;
     private EditText mSPhoneEditText;
+    private Button mAddButton;
+    private Button mSubButton;
 
     private static final int EXISTING_BOOK_LOADER = 0;
 
@@ -68,6 +72,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSNameEditText = (EditText) findViewById(R.id.edit_sname);
         mSPhoneEditText = (EditText) findViewById(R.id.edit_sphone);
+        mAddButton = (Button) findViewById(R.id.addQuantity);
+        mSubButton = (Button) findViewById(R.id.subQuantity);
 
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -97,13 +103,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         Uri newUri;
         if(mCurrentUri == null) {
-            newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
-            Log.e("check", newUri.toString());
-            if(newUri == null){
-                Toast.makeText(this, R.string.save_error, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.save_success, Toast.LENGTH_SHORT).show();
-            }
+            getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
         } else {
             int rows = getContentResolver().update(mCurrentUri, values, null, null);
             if (rows == 0) {
@@ -240,26 +240,51 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in
+
             int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_NAME);
             int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
             int sNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
             int sPhoneColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+            final int bookId = cursor.getInt(cursor.getColumnIndexOrThrow(BookEntry._ID));
 
-            // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            final int quantity = cursor.getInt(quantityColumnIndex);
             String sName = cursor.getString(sNameColumnIndex);
             String sPhone = cursor.getString(sPhoneColumnIndex);
 
-            // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mPriceEditText.setText(price);
+            mQuantityEditText.setText(String.valueOf(quantity));
             mSNameEditText.setText(sName);
             mSPhoneEditText.setText(sPhone);
 
+            mSubButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    int updatedQuantity = quantity;
+                    if(updatedQuantity >= 0) {
+                        updatedQuantity -= 1;
+                        ContentValues values = new ContentValues();
+                        values.put(BookEntry.COLUMN_BOOK_QUANTITY, updatedQuantity);
+                        Uri newUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, bookId);
+                        getContentResolver().update(newUri, values, null, null);
+                    }
+                }
+            });
+
+            mAddButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    int updatedQuantity = quantity;
+                    updatedQuantity += 1;
+                    ContentValues values = new ContentValues();
+                    values.put(BookEntry.COLUMN_BOOK_QUANTITY, updatedQuantity);
+                    Uri newUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, bookId);
+                    getContentResolver().update(newUri, values, null, null);
+                }
+            });
         }
     }
 
